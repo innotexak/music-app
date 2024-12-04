@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { spacing, fontSizes } from '../constant/dimentions'
+import { spacing, fontSizes } from '../constant/dimensions'
 import { colors } from '../constant/colors'
 import { fontFamilies } from '../constant/fontFamilies'
 
@@ -22,30 +22,30 @@ export default SongCard
 const styles = StyleSheet.create({
 
   container:{
-    height:250,
-    width:300,
-    paddingHorizontal:spacing.xl,
-    paddingVertical:spacing.md,
+    height:280,
+    width:200,
+    borderStyle:'solid',
+    borderRadius:10,
   },
   imageStyle:{
-    width:250,
-    height:250,
+    width:200,
+    height:220,
     borderRadius:10,
   },
   cardText:{
     width:'100%',
     textAlign:'center',
+    padding:spacing.sm,
   },
   songsTitle:{
-    fontSize:fontSizes.xl,
+    fontSize:fontSizes.lg,
     color:colors.textPrimary,
     fontFamily:fontFamilies.bold,
     textAlign:'center',
-    paddingVertical:spacing.xs,
   },
   artist:{
     textAlign:'center',
-    fontSize:fontSizes.sm,
+    fontSize:fontSizes.md,
     color:colors.textPrimary,
   }
 })

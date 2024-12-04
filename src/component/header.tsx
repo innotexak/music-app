@@ -3,7 +3,7 @@ import React from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../constant/colors';
-import { iconSizes, spacing } from '../constant/dimentions';
+import { iconSizes, spacing } from '../constant/dimensions';
 const AppHeader = () => {
   return (
     <View style={styles.container}>

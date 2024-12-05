@@ -7,3 +7,9 @@ export const colors = {
   minTintColor:'#fff',
   maxTintColor:'#555B6A',
 };
+
+
+export const icons = {
+  iconPrimary: '#091227',
+  iconSecondary: '#eaf0ff',
+};

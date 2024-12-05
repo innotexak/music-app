@@ -11,13 +11,21 @@ import {
 } from './playControlButton';
 import {useSharedValue} from 'react-native-reanimated';
 import { Slider } from 'react-native-awesome-slider';
+import MovingText from './movingText';
+import { useNavigation } from '@react-navigation/native';
 const uri =
   'https://media.istockphoto.com/id/869382034/photo/closeup-view-of-woman-holding-modern-smartphone-in-hands-girl-typing-on-empty-mobile-screen.jpg?b=1&s=170x170&k=20&c=yCN5IJmz8jf5VKIjlMF_TAsZ2Cdgmurcxkawd225G_k=';
 
 const FloatingPlayList = () => {
+  const navigation = useNavigation()
   const progress = useSharedValue(30);
   const min = useSharedValue(0);
   const max = useSharedValue(100);
+
+  const OpenPlayerScreen = ()=>{
+    navigation.navigate('PLAYER_SCREEN')
+  }
+
   return (
     <View>
       <View style={{zIndex:1}}>
@@ -30,18 +38,16 @@ const FloatingPlayList = () => {
             minimumTrackTintColor: colors.minTintColor,
             maximumTrackTintColor: colors.maxTintColor,
           }}
-          containerStyle={{
-            height:7,
-          }}
+     
         />
       </View>
-      <TouchableOpacity style={styles.container} activeOpacity={0.85}>
+      <TouchableOpacity style={styles.container} activeOpacity={0.85} onPress={OpenPlayerScreen}>
         <Image source={{uri}} style={styles.coverImage} />
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Amazing Grace</Text>
+          <MovingText text={"Amazing Grace have seen"} style={styles.title} animatedThreshold={7}/>
           <Text style={styles.artist}>John Newton</Text>
         </View>
-        r
+        
         <View style={styles.playControlStyle}>
           <BackwardPlayIcon size={iconSizes.md} />
           <PlayAndPauseIcon size={iconSizes.md} />
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flex: 1,
     paddingHorizontal: spacing.md,
-    textAlign: 'center',
+  overflow:'hidden'
   },
   coverImage: {
     width: 70,

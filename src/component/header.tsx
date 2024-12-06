@@ -4,10 +4,16 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../constant/colors';
 import { iconSizes, spacing } from '../constant/dimensions';
+import { useNavigation } from '@react-navigation/native';
 const AppHeader = () => {
+  const navigation = useNavigation()
+
+  const toggleNavigation = ()=>{
+    navigation.toggleDrawer();
+  }
   return (
     <View style={styles.container}>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={toggleNavigation}>
       <FontAwesome5 name={'grip-lines'} color={colors.textPrimary} size={iconSizes.lg}/>
     </TouchableOpacity>
 

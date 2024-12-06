@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import FeatherIcon from 'react-native-vector-icons/Feather'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { fontSizes, iconSizes, spacing } from '../constant/dimensions'
 import { fontFamilies } from '../constant/fontFamilies'
 import { colors } from '../constant/colors'
@@ -8,16 +8,16 @@ import { colors } from '../constant/colors'
 export const ForwardPlayIcon = ({size=iconSizes.lg}) => {
   return (
     <TouchableOpacity>
-     <FeatherIcon name={"skip-forward"} size={size} style={styles.forwardControl}/>
+     <FontAwesome5 name={"forward"} size={size} style={styles.forwardControl}/>
     </TouchableOpacity>
   )
 }
 
 export const PlayAndPauseIcon = ({size=iconSizes.lg}) => {
-    const isPlaying = true
+    const isPlaying = false
     return (
       <TouchableOpacity>
-       <FeatherIcon name={isPlaying ? 'pause' : 'play'}  size={size} style={styles.playControl}/>
+       <FontAwesome5 name={isPlaying ? 'pause' : 'play'}  size={size} style={styles.playControl}/>
       </TouchableOpacity>
     )
   }
@@ -26,7 +26,7 @@ export const PlayAndPauseIcon = ({size=iconSizes.lg}) => {
   export const BackwardPlayIcon = ({size=iconSizes.lg}) => {
     return (
       <TouchableOpacity>
-       <FeatherIcon name={"skip-back"} size={size} style={styles.backwardControl}/>
+       <FontAwesome5 name={"backward"} size={size} style={styles.backwardControl}/>
       </TouchableOpacity>
     )
   }

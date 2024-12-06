@@ -13,14 +13,15 @@ import {useSharedValue} from 'react-native-reanimated';
 import { Slider } from 'react-native-awesome-slider';
 import MovingText from './movingText';
 import { useNavigation } from '@react-navigation/native';
+
 const uri =
   'https://media.istockphoto.com/id/869382034/photo/closeup-view-of-woman-holding-modern-smartphone-in-hands-girl-typing-on-empty-mobile-screen.jpg?b=1&s=170x170&k=20&c=yCN5IJmz8jf5VKIjlMF_TAsZ2Cdgmurcxkawd225G_k=';
 
 const FloatingPlayList = () => {
   const navigation = useNavigation()
-  const progress = useSharedValue(30);
+  const progress = useSharedValue(0.25);
   const min = useSharedValue(0);
-  const max = useSharedValue(100);
+  const max = useSharedValue(1);
 
   const OpenPlayerScreen = ()=>{
     navigation.navigate('PLAYER_SCREEN')

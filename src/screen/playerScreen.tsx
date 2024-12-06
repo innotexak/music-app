@@ -50,7 +50,7 @@ const PlayerScreen: FC<PlayerScreenProps> = ({navigation}) => {
         <View style={styles.imageBottomText}>
           <View style={styles.sideIcon}>
             <Text style={styles.songsTitle} numberOfLines={1}>
-              I Will Dance for Joy
+              I Will dance for Joy
             </Text>
             <Text style={styles.artist}>Agatha Moses</Text>
           </View>
@@ -83,8 +83,9 @@ const PlayerScreen: FC<PlayerScreenProps> = ({navigation}) => {
       </View>
 
       {/* View for progress display and player */}
-      <PlayProgressBar />
-      
+
+    <PlayProgressBar />
+     
     </View>
   );
 };
@@ -95,11 +96,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+
   },
   playerHeader: {
+    width:'100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: spacing.lg,
+    paddingVertical: spacing.xl,
     paddingHorizontal: spacing.lg,
   },
   centerText: {
@@ -123,14 +126,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: spacing.md,
     paddingHorizontal: spacing.lg,
+    paddingVertical:spacing.xl,
     width: '90%',
   },
   songsTitle: {
+    textAlign:'center',
     fontSize: fontSizes.lg,
     color: colors.textPrimary,
     fontFamily: fontFamilies.bold,
   },
   artist: {
+    textAlign:'center',
     fontSize: fontSizes.md,
     color: colors.textPrimary,
   },
@@ -146,6 +152,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: spacing.xl,
     paddingHorizontal: spacing.xl,
+    paddingVertical:spacing.md,
   },
   innerIcons: {
     flexDirection: 'row',

@@ -10,11 +10,12 @@ import {fontFamilies} from '../constant/fontFamilies';
 import SongCard from '../component/songCard';
 import FloatingPlayList from '../component/floatingPlayList';
 
-const LikeScreen = () => {
+const LikeScreen = (props) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>props.navigation.goBack()}>
           <AntDesign
             name="arrowleft"
             color={icons.iconSecondary}

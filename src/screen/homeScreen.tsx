@@ -1,18 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
-import { FlatList, View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React from 'react';
-import {colors} from '../constant/colors';
+import { colors } from '../constant/colors';
 import AppHeader from '../component/header';
-import SongListWithCategory from '../component/songListWithCategory';
 import FloatingPlayList from '../component/floatingPlayList';
+import { songsList as SongData } from '../data/songsList'; 
+import SongList from '../component/songListing';
 
-
-const HomeScreen =() => {
+const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <AppHeader/>
-      <FlatList data={[1,2,3,4]} renderItem={SongListWithCategory} contentContainerStyle={{paddingBottom:200}}/>
-      <FloatingPlayList/>
+      <AppHeader />
+      <SongList data={SongData} />
+      <FloatingPlayList />
     </View>
   );
 };
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    color:colors.textPrimary,
+    color: colors.textPrimary,
   },
-
 });

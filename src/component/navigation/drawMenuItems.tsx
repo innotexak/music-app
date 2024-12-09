@@ -36,7 +36,7 @@ const DrawerMenu = (props) =>{
         },
         {
           label: 'FAQ',
-          icon: () => <AntDesign name="question" size={iconSizes.lg} color={colors.iconSecondary} />,
+          icon: () => <FontAwesome5 name="question" size={iconSizes.lg} color={colors.iconSecondary} />,
           screen: IAppScreen.FAQ,
         },
         {

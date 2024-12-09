@@ -8,6 +8,7 @@ import {fontSizes, spacing} from '../constant/dimensions';
 import {fontFamilies} from '../constant/fontFamilies';
 import {RepeatComponent, ShuffleComponent} from '../component/repeatShuffle';
 import PlayProgressBar from '../component/playProgressBar';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export type IAppScreen = {
   HOME_SCREEN: undefined;
@@ -31,7 +32,7 @@ const PlayerScreen: FC<PlayerScreenProps> = ({navigation}) => {
   const [isMuted, setIsMuted] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* Header */}
       <View style={styles.playerHeader}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -86,7 +87,7 @@ const PlayerScreen: FC<PlayerScreenProps> = ({navigation}) => {
 
     <PlayProgressBar />
      
-    </View>
+    </ScrollView>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
@@ -9,6 +9,9 @@ import {fontFamilies} from '../constant/fontFamilies';
 import {RepeatComponent, ShuffleComponent} from '../component/repeatShuffle';
 import PlayProgressBar from '../component/playProgressBar';
 import { ScrollView } from 'react-native-gesture-handler';
+import TrackPlayer from 'react-native-track-player';
+import { Song } from '../component/type';
+import LoadingComponent from '../component/loadingComponent';
 
 export type IAppScreen = {
   HOME_SCREEN: undefined;
@@ -27,15 +30,27 @@ interface PlayerScreenProps {
 const uri =
   'https://images.pexels.com/photos/920382/pexels-photo-920382.jpeg?auto=compress&cs=tinysrgb&w=600';
 
-const PlayerScreen: FC<PlayerScreenProps> = ({navigation}) => {
+const PlayerScreen: FC<PlayerScreenProps> = (props) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  // const [loading, setLoading ] = useState<boolean>(true)
 
+
+// const getActiveTrack = async ()=>{
+//   await TrackPlayer.getActiveTrack();
+// }
+// useEffect(()=>{
+//   getActiveTrack()
+//     setLoading(true)
+
+// },[])
+
+// if(loading) return <LoadingComponent />
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
       <View style={styles.playerHeader}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <AntDesign
             name="arrowleft"
             color={icons.iconSecondary}
@@ -73,7 +88,7 @@ const PlayerScreen: FC<PlayerScreenProps> = ({navigation}) => {
           <Feather
             name={isMuted ? 'volume-x' : 'volume-1'}
             color={icons.iconSecondary}
-            size={spacing.lg}
+            size={spacing.xl}
           />
         </TouchableOpacity>
 
@@ -84,7 +99,6 @@ const PlayerScreen: FC<PlayerScreenProps> = ({navigation}) => {
       </View>
 
       {/* View for progress display and player */}
-
     <PlayProgressBar />
      
     </ScrollView>

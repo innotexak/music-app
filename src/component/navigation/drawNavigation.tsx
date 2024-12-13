@@ -9,7 +9,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigation = () => { 
   return (
     <Drawer.Navigator
-      screenOptions={{headerShown: false, drawerType:'slide' }}
+      screenOptions={{headerShown: false, drawerType:'slide', swipeEdgeWidth:0, }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="DRAWER_HOME" component={StackNavigation} />
     </Drawer.Navigator>

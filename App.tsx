@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect } from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import DrawerNavigation from './src/component/navigation/drawNavigation';
 
-import TrackPlayer from 'react-native-track-player';
+import { useSetupPlayer } from './src/hook/playerSetupt';
 
 // The player is ready to be used
 export enum IAppScreen {
@@ -20,16 +20,12 @@ export enum IAppScreen {
 }
  
 const App = () => {
+  //Setting up player
 
-  const setupPlayer = async ()=>{
-    await TrackPlayer.setupPlayer()
-  console.log("tract player setup completed")
+  const onLoad = ()=>{
+console.log("Player setup completed")
   }
-  
-  useEffect(()=>{
-    setupPlayer()
-  },[])
-
+    useSetupPlayer({onLoad})
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>

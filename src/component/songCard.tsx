@@ -4,8 +4,6 @@ import { spacing, fontSizes } from '../constant/dimensions'
 import { colors } from '../constant/colors'
 import { fontFamilies } from '../constant/fontFamilies'
 
-// import { ISong } from '../data/songsList'
-// import TrackPlayer from 'react-native-track-player'
 interface ISongProps {
   containerStyle?: Record<string, any>
   imageStyle?: Record<string, any>
@@ -14,13 +12,10 @@ interface ISongProps {
     title: string
   artist: string
   url: string},
-  handlePlay:(item: any)=>void
+  handlePlay?:(item: any)=>void
 }
 
 const SongCard: FC<ISongProps> = ({item, containerStyle, imageStyle, handlePlay}, ) => {
-
-
- 
   return (
     <TouchableOpacity style={[styles.container, containerStyle]} onPress={()=>handlePlay(item)}>
       <Image source={{ uri: item.artwork }} style={[styles.imageStyle, imageStyle]} />

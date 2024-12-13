@@ -2,20 +2,9 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { spacing } from '../constant/dimensions';
 import SongListWithCategory from './songListWithCategory';
+import { SongListProps } from './type';
 
-interface Song {
-  title: string;
-  artist: string;
-  artwork: string;
-  url: string;
-}
 
-interface SongListProps {
-  data: {
-    category: string;
-    songs: Song[];
-  }[];  
-}
 
 const SongList = ({ data }: SongListProps) => {
   return (

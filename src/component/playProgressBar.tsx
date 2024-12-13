@@ -11,16 +11,17 @@ import {
 } from './playControlButton';
 
 const PlayProgressBar = () => {
-  const progress = useSharedValue(0.25);
+  const progress = useSharedValue(0.3);
   const min = useSharedValue(0);
   const max = useSharedValue(1);
   return (
-    <View>
+    <View >
       <View style={styles.progressContainer}>
-        <Text style={styles.textStyle}>0.0</Text>
-        <Text style={styles.textStyle}>0.85</Text>
+        <Text style={styles.textStyle}>0.3</Text>
+        <Text style={styles.textStyle}>2.0</Text>
       </View>
-      <Slider
+     <View style={styles.progressWrapper}>
+     <Slider
         style={styles.sliderContainer}
         progress={progress}
         minimumValue={min}
@@ -30,6 +31,7 @@ const PlayProgressBar = () => {
           maximumTrackTintColor: colors.maxTintColor,
         }}
       />
+     </View>
 
       <View style={styles.playControlStyle}>
         <BackwardPlayIcon size={iconSizes.sm} />
@@ -43,6 +45,13 @@ const PlayProgressBar = () => {
 export default PlayProgressBar;
 
 const styles = StyleSheet.create({
+  progressWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+      paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    marginBottom:spacing.lg
+  },
   progressContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -52,9 +61,9 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
   sliderContainer: {
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.lg,
-    marginBottom:spacing.lg
+    flexDirection: 'row',
+    alignItems: 'center',
+
   },
   textStyle: {
     color: colors.textPrimary,

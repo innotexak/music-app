@@ -1,15 +1,33 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { colors } from '../constant/colors';
-import { fontFamilies } from '../constant/fontFamilies';
-import { iconSizes, spacing } from '../constant/dimensions';
-
-import { ISong } from '../data/songsList'; 
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {FC} from 'react';
+import {colors} from '../constant/colors';
+import {fontFamilies} from '../constant/fontFamilies';
+import {iconSizes, spacing} from '../constant/dimensions';
 import SongCard from './songCard';
+import TrackPlayer from 'react-native-track-player';
+import {Song, SongListWithCategoryProps} from './type';
+import FloatingPlayList from './floatingPlayList';
 
-const SongListWithCategory = ({ item }) => {
-  const handlePlayTrack = async (item: ISong, songs: ISong[]) => {
-    console.log({ item, songs });
+const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
+
+  const handlePlayTrack = async (selectedTract: Song, songs:Song[] = item.songs) => {
+    const trackIndex = songs.findIndex(
+      value => value.url === selectedTract.url,
+    );
+
+    if (trackIndex === -1) {
+      return;
+    }
+
+    const beforeTracks = songs.slice(0, trackIndex);
+    const afterTracks = songs.slice(trackIndex + 1);
+
+    await TrackPlayer.reset();
+
+    await TrackPlayer.add(selectedTract);
+    await TrackPlayer.add(afterTracks);
+    await TrackPlayer.add(beforeTracks);
+    await TrackPlayer.play();
   };
 
   return (
@@ -17,15 +35,17 @@ const SongListWithCategory = ({ item }) => {
       <Text style={styles.headerText}>{item.category}</Text>
       <FlatList
         data={item.songs}
-        renderItem={({ item }: any) => (
+        renderItem={({item}:any) => (
           <SongCard
             item={item}
-            handlePlay={(selectedTrack: ISong) => {
-              handlePlayTrack(selectedTrack, item.songs);
+            handlePlay={(selectedTrack: Song) => {
+              handlePlayTrack(selectedTrack);
             }}
           />
         )}
-        keyExtractor={(song) => song.url}
+        horizontal={true}
+        keyExtractor={song => song.url}
+        contentContainerStyle={styles.gap}
       />
     </View>
   );
@@ -44,4 +64,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
   },
+  gap:{
+    gap:spacing.xl
+  }
 });

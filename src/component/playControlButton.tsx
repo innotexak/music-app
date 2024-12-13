@@ -7,7 +7,7 @@ import { colors } from '../constant/colors'
 
 export const ForwardPlayIcon = ({size=iconSizes.lg}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity activeOpacity={0.85}>
      <FontAwesome5 name={"forward"} size={size} style={styles.forwardControl}/>
     </TouchableOpacity>
   )
@@ -16,7 +16,7 @@ export const ForwardPlayIcon = ({size=iconSizes.lg}) => {
 export const PlayAndPauseIcon = ({size=iconSizes.lg}) => {
     const isPlaying = false
     return (
-      <TouchableOpacity>
+      <TouchableOpacity activeOpacity={0.85}>
        <FontAwesome5 name={isPlaying ? 'pause' : 'play'}  size={size} style={styles.playControl}/>
       </TouchableOpacity>
     )
@@ -25,7 +25,7 @@ export const PlayAndPauseIcon = ({size=iconSizes.lg}) => {
   
   export const BackwardPlayIcon = ({size=iconSizes.lg}) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity activeOpacity={0.85}>
        <FontAwesome5 name={"backward"} size={size} style={styles.backwardControl}/>
       </TouchableOpacity>
     )

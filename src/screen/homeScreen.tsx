@@ -1,17 +1,25 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import React from 'react';
 import { colors } from '../constant/colors';
 import AppHeader from '../component/header';
 import FloatingPlayList from '../component/floatingPlayList';
 import { songsList as SongData } from '../data/songsList'; 
-import SongList from '../component/songListing';
+import  { GapSpacing } from '../component/songListing';
+import SongListWithCategory from '../component/songListWithCategory';
+import { spacing } from '../constant/dimensions';
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <AppHeader />
-      <SongList data={SongData} />
+      <FlatList
+        data={SongData} 
+        renderItem={({ item }) => <SongListWithCategory item={item} />}
+        ItemSeparatorComponent={GapSpacing}
+        keyExtractor={(item, index) => index.toString()} 
+        contentContainerStyle={{ paddingHorizontal: spacing.md }}
+      />
       <FloatingPlayList />
     </View>
   );

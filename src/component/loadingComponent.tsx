@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, ActivityIndicator, StyleSheet, Text } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { colors } from '../constant/colors';
 
 const LoadingComponent = () => {
   return (
     <View style={styles.loadingContainer}>
       <ActivityIndicator size="large" color={colors.textPrimary} />
-      <Text style={styles.loadingText}>Loading...</Text>
+      {/* <Text  size={"large"} style={styles.loadingText}>Loading...</Text> */}
     </View>
   );
 };
@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: colors.background
   },
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#fff',
+    color: colors.textPrimary
   },
 });
 

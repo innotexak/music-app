@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {fontSizes, iconSizes, spacing} from '../constant/dimensions';
 import {useSharedValue} from 'react-native-reanimated';
 import {Slider} from 'react-native-awesome-slider';
@@ -9,22 +9,37 @@ import {
   ForwardPlayIcon,
   PlayAndPauseIcon,
 } from './playControlButton';
+import TrackPlayer, { useProgress } from 'react-native-track-player';
 
 const PlayProgressBar = () => {
-  const progress = useSharedValue(0.3);
-  const min = useSharedValue(0);
-  const max = useSharedValue(1);
+  const progress = useSharedValue(0);
+  const min = useSharedValue(0); 
+  const max = useSharedValue(1)
+
+
+  const { position, duration } = useProgress()
+
+  useEffect(() => {
+    const setupTrackPlayer = async () => {
+      const trackDuration = await TrackPlayer.getDuration();
+      max.value = trackDuration || 1; 
+      progress.value = position || 0;
+    };
+
+    setupTrackPlayer();
+  }, [position, progress, max]);
+
   return (
     <View >
       <View style={styles.progressContainer}>
-        <Text style={styles.textStyle}>0.3</Text>
-        <Text style={styles.textStyle}>2.0</Text>
+        <Text style={styles.textStyle}>0.00</Text>
+        <Text style={styles.textStyle}>{duration.toFixed(2)}</Text>
       </View>
      <View style={styles.progressWrapper}>
      <Slider
         style={styles.sliderContainer}
-        progress={progress}
-        minimumValue={min}
+        progress={min}
+        minimumValue={progress}
         maximumValue={max}
         theme={{
           minimumTrackTintColor: colors.minTintColor,

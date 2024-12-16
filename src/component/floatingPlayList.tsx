@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect } from 'react';
 import {fontFamilies} from '../constant/fontFamilies';
 import {fontSizes, iconSizes, spacing} from '../constant/dimensions';
 import {colors} from '../constant/colors';
@@ -14,68 +14,47 @@ import {Slider} from 'react-native-awesome-slider';
 import MovingText from './movingText';
 import {useNavigation} from '@react-navigation/native';
 import {IAppScreen} from '../../App';
-import TrackPlayer, {Event} from 'react-native-track-player';
-import { Song } from './type';
+import TrackPlayer, {useActiveTrack, useProgress} from 'react-native-track-player';
 
-const uri =
-  'https://media.istockphoto.com/id/869382034/photo/closeup-view-of-woman-holding-modern-smartphone-in-hands-girl-typing-on-empty-mobile-screen.jpg?b=1&s=170x170&k=20&c=yCN5IJmz8jf5VKIjlMF_TAsZ2Cdgmurcxkawd225G_k=';
 
 const FloatingPlayList = () => {
   const navigation = useNavigation();
-  const progress = useSharedValue(0.25);
-  const min = useSharedValue(0);
-  const max = useSharedValue(1);
+  const progress = useSharedValue(0);
+  const min = useSharedValue(0); 
+  const max = useSharedValue(1)
 
-  const [activeTrack, setActiveTrack] = useState<Song | any>(null);
+
+  const { position, duration } = useProgress();
+console.log( { position, duration } )
+  useEffect(() => {
+    const setupTrackPlayer = async () => {
+      const trackDuration = await TrackPlayer.getDuration();
+      max.value = trackDuration || 1; 
+      progress.value = position || 0;
+    };
+
+    setupTrackPlayer();
+  }, [position, progress, max]);
+
+const activeTrack = useActiveTrack()
+
 
   const isSliding = {value: false};
-  let duration = 0;
 
 
-  useEffect(() => {
-    const fetchActiveTrack = async () => {
-      const currentTrack = await TrackPlayer.getActiveTrack();
-      if (currentTrack) {
-        setActiveTrack(currentTrack);
-        // setDuration(currentTrack.duration || 0);
-        duration =  await TrackPlayer.getDuration()
-        console.log({duration})
-      }
-    };
-
-    fetchActiveTrack();
-
-
-    // Listen for track changes
-    const trackChangeListener = TrackPlayer.addEventListener(
-      Event.PlaybackActiveTrackChanged,
-      async () => {
-        const currentTrack = await TrackPlayer.getActiveTrack();
-        if (currentTrack) {
-          setActiveTrack(currentTrack);
-          // setDuration(currentTrack.duration || 0);
-        }
-      }
-    );
-
-    // Clean up the listener
-    return () => {
-      trackChangeListener.remove();
-    };
-  }, []);
   const OpenPlayerScreen = () => {
     navigation.navigate(IAppScreen.PLAYER_SCREEN as never);
   };
 
   return (
     <View>
-      {activeTrack && activeTrack.url ? (
+      {activeTrack && activeTrack.url && (
         <>
           <View style={{zIndex: 1}}>
             <Slider
               style={styles.container}
               progress={progress}
-              minimumValue={min}
+              minimumValue={progress}
               maximumValue={max}
               theme={{
                 minimumTrackTintColor: colors.minTintColor,
@@ -102,7 +81,7 @@ const FloatingPlayList = () => {
             <Image source={{uri:activeTrack.url}} style={styles.coverImage} />
             <View style={styles.titleContainer}>
               <MovingText
-                text={activeTrack.title}
+                text={activeTrack.title as string}
                 style={styles.title}
                 animatedThreshold={7}
               />
@@ -116,11 +95,13 @@ const FloatingPlayList = () => {
             </View>
           </TouchableOpacity>
         </>
-      ) : (
-        <View>
-          <Text style={{color:colors.textPrimary}}>Loading...</Text>
-        </View>
-      )}
+       )
+      //  : (
+      //   <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+      //     <Text style={{color:colors.textPrimary}}>Loading...</Text>
+      //   </View>
+      // )
+      }
     </View>
   );
 };

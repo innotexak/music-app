@@ -9,7 +9,7 @@ import {fontFamilies} from '../constant/fontFamilies';
 import {RepeatComponent, ShuffleComponent} from '../component/repeatShuffle';
 import PlayProgressBar from '../component/playProgressBar';
 import { ScrollView } from 'react-native-gesture-handler';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
 import { Song } from '../component/type';
 import LoadingComponent from '../component/loadingComponent';
 
@@ -27,25 +27,13 @@ interface PlayerScreenProps {
   navigation: PlayerScreenNavigationProp;
 }
 
-const uri =
-  'https://images.pexels.com/photos/920382/pexels-photo-920382.jpeg?auto=compress&cs=tinysrgb&w=600';
-
 const PlayerScreen: FC<PlayerScreenProps> = (props) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  // const [loading, setLoading ] = useState<boolean>(true)
+const activeTrack = useActiveTrack()
 
 
-// const getActiveTrack = async ()=>{
-//   await TrackPlayer.getActiveTrack();
-// }
-// useEffect(()=>{
-//   getActiveTrack()
-//     setLoading(true)
-
-// },[])
-
-// if(loading) return <LoadingComponent />
+if(!activeTrack) return <LoadingComponent />
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -62,13 +50,13 @@ const PlayerScreen: FC<PlayerScreenProps> = (props) => {
 
       {/* Album Art & Info */}
       <View style={styles.imageContainer}>
-        <Image source={{uri}} style={styles.imageCover} />
+        <Image source={{uri:activeTrack.artwork}} style={styles.imageCover} />
         <View style={styles.imageBottomText}>
           <View style={styles.sideIcon}>
             <Text style={styles.songsTitle} numberOfLines={1}>
-              I Will dance for Joy
+            {activeTrack.title}
             </Text>
-            <Text style={styles.artist}>Agatha Moses</Text>
+            <Text style={styles.artist}>{activeTrack.artist}</Text>
           </View>
           <TouchableOpacity
             style={styles.heartTouchable}

@@ -1,22 +1,26 @@
 /* eslint-disable react-native/no-inline-styles */
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, icons} from '../constant/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-
 import {fontSizes, spacing} from '../constant/dimensions';
 import {fontFamilies} from '../constant/fontFamilies';
-import SongCard from '../component/songCard';
 import FloatingPlayList from '../component/floatingPlayList';
-import { songsList } from '../data/songsList';
+import {useNavigation} from '@react-navigation/native';
+import SongCard from '../component/songCard';
+import {FlatList} from 'react-native-gesture-handler';
+import useLikeSongs from '../store/zustant';
+import { handlePlayTrack } from '../utils/helpts';
 
-const LikeScreen = (props) => {
- 
+const LikeScreen = () => {
+  const navigation = useNavigation();
+  const {likedSongs} = useLikeSongs();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign
             name="arrowleft"
             color={icons.iconSecondary}
@@ -33,29 +37,13 @@ const LikeScreen = (props) => {
         </TouchableOpacity>
       </View>
 
-  
-      <FlatList
-      ListHeaderComponent={
-        <Text style={styles.likeText}>Liked Songs</Text>
-      }
-        data={songsList[0].songs}
-        renderItem={({item}:any) => (
-          <SongCard
-            item={item}
-            containerStyle={{width: '55%'}}
-            imageStyle={{width: 160, height: 160}}
-          />
-        )}
-        numColumns={2}
-        contentContainerStyle={{
-          paddingBottom: 200,
-          paddingHorizontal: spacing.lg,
-        }}
-        columnWrapperStyle={{
-          justifyContent: 'space-between',
-        }}
-      />
-      <FloatingPlayList/>
+      {/* <FlatList
+        data={likedSongs}
+        renderItem={({item}) => <SongCard item={item} handlePlay={()=>handlePlayTrack(item)}/>}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{paddingHorizontal: spacing.md}}
+      /> */}
+      <FloatingPlayList />
     </View>
   );
 };

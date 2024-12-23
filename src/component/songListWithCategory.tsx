@@ -4,13 +4,13 @@ import {colors} from '../constant/colors';
 import {fontFamilies} from '../constant/fontFamilies';
 import {iconSizes, spacing} from '../constant/dimensions';
 import SongCard from './songCard';
-import TrackPlayer from 'react-native-track-player';
 import {Song, SongListWithCategoryProps} from './type';
-import FloatingPlayList from './floatingPlayList';
+import TrackPlayer from 'react-native-track-player';
+
 
 const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
 
-  const handlePlayTrack = async (selectedTract: Song, songs:Song[] = item.songs) => {
+  const handlePlayTrack = async (selectedTract: Song, songs:Song[]=item.songs ) => {
     const trackIndex = songs.findIndex(
       value => value.url === selectedTract.url,
     );
@@ -22,14 +22,16 @@ const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
     const beforeTracks = songs.slice(0, trackIndex);
     const afterTracks = songs.slice(trackIndex + 1);
 
+
     await TrackPlayer.reset();
 
     await TrackPlayer.add(selectedTract);
     await TrackPlayer.add(afterTracks);
     await TrackPlayer.add(beforeTracks);
-    await TrackPlayer.play();
+    const queen = await TrackPlayer.getQueue()
+    console.log({queen})
+    await TrackPlayer.play(); 
   };
-
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>{item.category}</Text>
@@ -39,7 +41,8 @@ const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
           <SongCard
             item={item}
             handlePlay={(selectedTrack: Song) => {
-              handlePlayTrack(selectedTrack);
+              console.log(selectedTrack)
+              handlePlayTrack(selectedTrack, item);
             }}
           />
         )}
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontFamily: fontFamilies.bold,
     fontSize: iconSizes.xl,
-    paddingHorizontal: spacing.xl,
+    paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
   },
   gap:{

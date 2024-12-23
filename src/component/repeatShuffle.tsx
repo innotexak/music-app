@@ -41,12 +41,16 @@ export const RepeatComponent = () => {
 };
 
 export const ShuffleComponent = () => {
+
   let isShuffle= false
   const handleShuffle = async ()=>{
-    const currentQueue = await TrackPlayer.getActiveTrack();
-    const currentTrackId = await TrackPlayer.getCurrentTrack(); 
-    console.log({currentQueue, currentTrackId})
+    const currentQueue = await TrackPlayer.getQueue();
+    await TrackPlayer.reset()
+    currentQueue.sort(()=>Math.random() * 0.5)
+    await TrackPlayer.add(currentQueue)
+    await TrackPlayer.play()
   }
+
   return (
     <TouchableOpacity onPress={handleShuffle}>
       <MaterialCommunityIcons name={isShuffle ? "shuffle-off":"shuffle"} color={icons.iconSecondary} size={spacing.xl} />

@@ -10,40 +10,47 @@ import {
   PlayAndPauseIcon,
 } from './playControlButton';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
+import { formattedSecondsToMinutes } from '../utils/helpts';
 
 const PlayProgressBar = () => {
   const progress = useSharedValue(0);
   const min = useSharedValue(0); 
-  const max = useSharedValue(1)
+  const max = useSharedValue(1);
+  const isSliding = useSharedValue(false);
+  const { position, duration } = useProgress();
 
+  if(!isSliding.value){
+    progress.value = duration > 0 ? (position / duration) : 0;
+  }
 
-  const { position, duration } = useProgress()
-
-  useEffect(() => {
-    const setupTrackPlayer = async () => {
-      const trackDuration = await TrackPlayer.getDuration();
-      max.value = trackDuration || 1; 
-      progress.value = position || 0;
-    };
-
-    setupTrackPlayer();
-  }, [position, progress, max]);
 
   return (
     <View >
       <View style={styles.progressContainer}>
-        <Text style={styles.textStyle}>0.00</Text>
-        <Text style={styles.textStyle}>{duration.toFixed(2)}</Text>
+        <Text style={styles.textStyle}>{formattedSecondsToMinutes(position)}</Text>
+        <Text style={styles.textStyle}>{formattedSecondsToMinutes(duration - position)}</Text>
       </View>
      <View style={styles.progressWrapper}>
      <Slider
         style={styles.sliderContainer}
-        progress={min}
-        minimumValue={progress}
+        progress={progress}
+        minimumValue={min}
         maximumValue={max}
         theme={{
           minimumTrackTintColor: colors.minTintColor,
           maximumTrackTintColor: colors.maxTintColor,
+        }}
+        onSlidingStart={ () => ( isSliding.value = true) }
+
+        onValueChange={async (value)=>{
+          await TrackPlayer.seekTo(value * duration)
+        }}
+        onSlidingComplete={async (value:any)=>{
+          if(!isSliding.value){
+            return
+          }
+          isSliding.value = false
+          await TrackPlayer.seekTo(value * duration)
         }}
       />
      </View>

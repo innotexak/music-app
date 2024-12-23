@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
@@ -8,10 +8,10 @@ import {fontSizes, spacing} from '../constant/dimensions';
 import {fontFamilies} from '../constant/fontFamilies';
 import {RepeatComponent, ShuffleComponent} from '../component/repeatShuffle';
 import PlayProgressBar from '../component/playProgressBar';
-import { ScrollView } from 'react-native-gesture-handler';
-import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
-import { Song } from '../component/type';
+import {ScrollView} from 'react-native-gesture-handler';
+import TrackPlayer, {useActiveTrack} from 'react-native-track-player';
 import LoadingComponent from '../component/loadingComponent';
+import useLikeSongs from '../store/zustant';
 
 export type IAppScreen = {
   HOME_SCREEN: undefined;
@@ -27,13 +27,22 @@ interface PlayerScreenProps {
   navigation: PlayerScreenNavigationProp;
 }
 
-const PlayerScreen: FC<PlayerScreenProps> = (props) => {
+const PlayerScreen: FC<PlayerScreenProps> = props => {
   const [isLiked, setIsLiked] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-const activeTrack = useActiveTrack()
+  const activeTrack = useActiveTrack();
+  const {addToLikeSong} = useLikeSongs();
 
+  const handleMuteToggle = () => {
+    TrackPlayer.setVolume(isMuted ? 1 : 0);
+    setIsMuted(!isMuted);
+  };
 
-if(!activeTrack) return <LoadingComponent />
+  const handleLikedSong = () => {
+    addToLikeSong(activeTrack);
+    setIsLiked(!isLiked);
+  };
+  if (!activeTrack) return <LoadingComponent />;
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -50,17 +59,17 @@ if(!activeTrack) return <LoadingComponent />
 
       {/* Album Art & Info */}
       <View style={styles.imageContainer}>
-        <Image source={{uri:activeTrack.artwork}} style={styles.imageCover} />
+        <Image source={{uri: activeTrack.artwork}} style={styles.imageCover} />
         <View style={styles.imageBottomText}>
           <View style={styles.sideIcon}>
             <Text style={styles.songsTitle} numberOfLines={1}>
-            {activeTrack.title}
+              {activeTrack.title}
             </Text>
             <Text style={styles.artist}>{activeTrack.artist}</Text>
           </View>
           <TouchableOpacity
             style={styles.heartTouchable}
-            onPress={() => setIsLiked(!isLiked)}>
+            onPress={handleLikedSong}>
             <AntDesign
               name={isLiked ? 'heart' : 'hearto'}
               color={icons.iconSecondary}
@@ -72,7 +81,7 @@ if(!activeTrack) return <LoadingComponent />
 
       {/* Player Controls */}
       <View style={styles.playerControl}>
-        <TouchableOpacity onPress={() => setIsMuted(!isMuted)}>
+        <TouchableOpacity onPress={handleMuteToggle}>
           <Feather
             name={isMuted ? 'volume-x' : 'volume-1'}
             color={icons.iconSecondary}
@@ -87,8 +96,7 @@ if(!activeTrack) return <LoadingComponent />
       </View>
 
       {/* View for progress display and player */}
-    <PlayProgressBar />
-     
+      <PlayProgressBar />
     </ScrollView>
   );
 };
@@ -99,10 +107,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-
   },
   playerHeader: {
-    width:'100%',
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: spacing.xl,
@@ -129,17 +136,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: spacing.md,
     paddingHorizontal: spacing.lg,
-    paddingVertical:spacing.xl,
+    paddingVertical: spacing.xl,
     width: '90%',
   },
   songsTitle: {
-    textAlign:'center',
+    textAlign: 'center',
     fontSize: fontSizes.lg,
     color: colors.textPrimary,
     fontFamily: fontFamilies.bold,
   },
   artist: {
-    textAlign:'center',
+    textAlign: 'center',
     fontSize: fontSizes.md,
     color: colors.textPrimary,
   },
@@ -155,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: spacing.xl,
     paddingHorizontal: spacing.xl,
-    paddingVertical:spacing.md,
+    paddingVertical: spacing.md,
   },
   innerIcons: {
     flexDirection: 'row',

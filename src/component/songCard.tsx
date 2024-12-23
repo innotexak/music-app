@@ -16,6 +16,7 @@ interface ISongProps {
 }
 
 const SongCard: FC<ISongProps> = ({item, containerStyle, imageStyle, handlePlay}, ) => {
+
   return (
     <TouchableOpacity style={[styles.container, containerStyle]} onPress={()=>handlePlay(item)}>
       <Image source={{ uri: item.artwork }} style={[styles.imageStyle, imageStyle]} />
@@ -37,8 +38,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   imageStyle: {
-    width: 200,
-    height: 220,
+    width: 220,
+    height: 200,
     borderRadius: 10,
   },
   cardText: {

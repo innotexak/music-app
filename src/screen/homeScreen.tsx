@@ -10,11 +10,13 @@ import SongListWithCategory from '../component/songListWithCategory';
 import { spacing } from '../constant/dimensions';
 
 const HomeScreen = () => {
+
+  const formattedSongs = SongData.filter(item=>item.category.toLowerCase() !== 'liked songs')
   return (
     <View style={styles.container}>
       <AppHeader />
       <FlatList
-        data={SongData} 
+        data={formattedSongs} 
         renderItem={({ item }) => <SongListWithCategory item={item} />}
         ItemSeparatorComponent={GapSpacing}
         keyExtractor={(item, index) => index.toString()} 

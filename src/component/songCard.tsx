@@ -12,7 +12,7 @@ interface ISongProps {
     title: string
   artist: string
   url: string},
-  handlePlay?:(item: any)=>void
+  handlePlay?: ((item: any) => void) 
 }
 
 const SongCard: FC<ISongProps> = ({item, containerStyle, imageStyle, handlePlay}, ) => {

@@ -6,6 +6,7 @@ export const colors = {
   iconSecondary: '#8996B8',
   minTintColor:'#fff',
   maxTintColor:'#555B6A',
+  lightBackground:'#322c4bdb'
 };
 
 

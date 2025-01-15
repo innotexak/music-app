@@ -13,7 +13,7 @@ export const formattedSecondsToMinutes = (seconds:number)=> {
     return `${formattedMinutes}: ${formattedSeconds}`
 }
 
- export const handlePlayTrack = async (selectedTract: Song, songs:Song[]  ) => {
+ export const handlePlayTrack = async (selectedTract: Song, songs:Song[] = songsList[0].songs  ) => {
     const trackIndex = songs.findIndex(
       value => value.url === selectedTract.url,
     );

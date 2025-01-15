@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors, icons} from '../constant/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -8,10 +8,12 @@ import {fontSizes, spacing} from '../constant/dimensions';
 import {fontFamilies} from '../constant/fontFamilies';
 import FloatingPlayList from '../component/floatingPlayList';
 import {useNavigation} from '@react-navigation/native';
-import SongCard from '../component/songCard';
-import {FlatList} from 'react-native-gesture-handler';
+
 import useLikeSongs from '../store/zustant';
+import SongCard from '../component/songCard';
 import { handlePlayTrack } from '../utils/helpts';
+
+
 
 const LikeScreen = () => {
   const navigation = useNavigation();
@@ -37,12 +39,12 @@ const LikeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* <FlatList
+      <FlatList
         data={likedSongs}
         renderItem={({item}) => <SongCard item={item} handlePlay={()=>handlePlayTrack(item)}/>}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={{paddingHorizontal: spacing.md}}
-      /> */}
+      />
       <FloatingPlayList />
     </View>
   );

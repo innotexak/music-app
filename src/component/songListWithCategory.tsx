@@ -11,10 +11,13 @@ import TrackPlayer from 'react-native-track-player';
 const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
 
   const handlePlayTrack = async (selectedTract: Song, songs:Song[]=item.songs ) => {
+
     const trackIndex = songs.findIndex(
       value => value.url === selectedTract.url,
     );
-
+    console.log(trackIndex, "Index");
+    console.log("selected", selectedTract);
+    console.log('items', item.songs);
     if (trackIndex === -1) {
       return;
     }
@@ -24,12 +27,10 @@ const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
 
 
     await TrackPlayer.reset();
-
+console.log("Logged and referesh")
     await TrackPlayer.add(selectedTract);
     await TrackPlayer.add(afterTracks);
     await TrackPlayer.add(beforeTracks);
-    const queen = await TrackPlayer.getQueue()
-    console.log({queen})
     await TrackPlayer.play(); 
   };
   return (
@@ -41,8 +42,7 @@ const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
           <SongCard
             item={item}
             handlePlay={(selectedTrack: Song) => {
-              console.log(selectedTrack)
-              handlePlayTrack(selectedTrack, item);
+              handlePlayTrack(selectedTrack, item.songs);
             }}
           />
         )}

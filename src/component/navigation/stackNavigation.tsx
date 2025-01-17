@@ -8,8 +8,9 @@ import Profile from '../../screen/profile';
 import Settings from '../../screen/settings';
 import FAQs from '../../screen/faq';
 import Contact from '../../screen/contact';
-import LoginComponent from '../../screen/login';
+import LoginComponent from '../../screen/signin';
 import SignupComponent from '../../screen/signup';
+import UploadSongForm from '../../screen/assetUpload';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ const StackNavigation = () => {
       <Stack.Screen name={IAppScreen.CONTACT_US} component={Contact} />
       <Stack.Screen name={IAppScreen.LOGIN} component={LoginComponent} />
       <Stack.Screen name={IAppScreen.SIGNUP} component={SignupComponent} />
+      <Stack.Screen name={IAppScreen.UPLOAD} component={UploadSongForm} />
     </Stack.Navigator>
   );
 }

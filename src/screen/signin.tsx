@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-    Button,
   KeyboardAvoidingView,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import {colors, icons} from '../constant/colors';
@@ -17,35 +18,45 @@ import { LoginValidationSchema } from '../component/validations';
 import { useFormik } from 'formik';
 import { IAppScreen } from '../../App';
 import { useNavigation } from '@react-navigation/native';
+import { tabletContainer } from '../utils/helpts';
 
+function SignIn() {
 
-function Login() {
-
+    const { width } = useWindowDimensions();
+    const isTablet = width > 600;
 const navigator = useNavigation()
     const formik = useFormik({
         initialValues: {
           email: '',
           password: '',
         },
-        validationSchema: '',
+        validationSchema: LoginValidationSchema,
         onSubmit: (values) => {
           console.log('Form values:', values);
         },
       });
 
   return (
+    <SafeAreaView style={[styles.container, isTablet && tabletContainer as unknown as {}]}>
+        <TouchableOpacity onPress={() => navigator.goBack()} style={styles.goBack}>
+                <AntDesign
+                  name="arrowleft"
+                  color={icons.iconSecondary}
+                  size={spacing.lg}
+                />
+              </TouchableOpacity>
     <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.IconContainer}>
+      <View style={[styles.IconContainer,  isTablet && {marginVertical:spacing.sm, height:80, width:80}]}>
         <AntDesign
           name="login"
           color={icons.iconSecondary}
           size={spacing.xl}
-          style={styles.IconStyle}
+          style={[styles.IconStyle, isTablet && { paddingVertical:spacing.sm,}]}
         />
       </View>
       <Text style={styles.textColor}>Sign In</Text>
 
-      <Text style={styles.paragraph}>Welcome back to your number one music player, we got you covered always</Text>
+      <Text style={[styles.paragraph, isTablet && {fontSize:spacing.lg}]}>Welcome back to your number one music player, we got you covered always</Text>
     
     <View style={styles.socialAuth}>
     <TouchableOpacity style={styles.groupedIconText}>
@@ -82,29 +93,32 @@ const navigator = useNavigation()
         isPassword={true}
       />
       <TouchableOpacity >
-        <Text style={[styles.paragraph, {textAlign:'right', fontSize:fontSizes.sm, paddingTop:0}]}>Forgot password?</Text>
+        <Text style={[styles.paragraph, {textAlign:'right', fontSize:fontSizes.sm, paddingTop:0}, isTablet && {fontSize:spacing.lg}]}>Forgot password?</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={formik.handleSubmit} style={styles.button} >
       <Text style={styles.textColor2}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={()=>navigator.navigate(IAppScreen.SIGNUP as unknown as never)}  >
-        <Text style={[styles.paragraph, { textAlign:'left', fontSize:fontSizes.md }]}>Don't have an account? Sign Up</Text>
+        <Text style={[styles.paragraph, { textAlign:'left', fontSize:fontSizes.md }, isTablet && {fontSize:spacing.lg}]}>Don't have an account? Sign Up</Text>
       </TouchableOpacity>
     </View> 
 
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
-export default Login;
+export default SignIn;
 
 const styles = StyleSheet.create({
+  goBack:{
+    textAlign:'left',
+  },
   container: {
     flex: 1,
     backgroundColor: colors.background,
     color: colors.textPrimary,
-    padding: spacing.xl,
-    alignItems:'center', 
+    padding: spacing.md,
  },
   textColor: {
     color: colors.textPrimary,
@@ -129,6 +143,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     marginVertical:spacing.xl,
+    marginHorizontal:"auto",
   },
   IconStyle:{
     paddingVertical:spacing.xl,
@@ -137,7 +152,7 @@ const styles = StyleSheet.create({
   paragraph:{
     color: colors.textPrimary,
     textAlign: 'center',
-    fontSize: spacing.lg,
+    fontSize: spacing.md,
     paddingVertical:spacing.lg,
     fontFamily:fontFamilies.light
 },

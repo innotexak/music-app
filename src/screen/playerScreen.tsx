@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, useWindowDimensions} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -12,6 +12,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import TrackPlayer, {useActiveTrack} from 'react-native-track-player';
 import LoadingComponent from '../component/loadingComponent';
 import useLikeSongs from '../store/zustant';
+import { tabletContainer } from '../utils/helpts';
 
 export type IAppScreen = {
   HOME_SCREEN: undefined;
@@ -33,6 +34,9 @@ const PlayerScreen: FC<PlayerScreenProps> = props => {
   const activeTrack = useActiveTrack();
   const {addToLikeSong} = useLikeSongs();
 
+  const {width} = useWindowDimensions()
+  const isTablet = width > 600
+
   const handleMuteToggle = () => {
     TrackPlayer.setVolume(isMuted ? 1 : 0);
     setIsMuted(!isMuted);
@@ -44,7 +48,8 @@ const PlayerScreen: FC<PlayerScreenProps> = props => {
   };
   if (!activeTrack) return <LoadingComponent />;
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView  style={[styles.container, isTablet && tabletContainer  as {}]}>
+      <View style={styles.container}>
       {/* Header */}
       <View style={styles.playerHeader}>
         <TouchableOpacity onPress={() => props.navigation.goBack()}>
@@ -80,7 +85,7 @@ const PlayerScreen: FC<PlayerScreenProps> = props => {
       </View>
 
       {/* Player Controls */}
-      <View style={styles.playerControl}>
+      <View style={[styles.playerControl, isTablet && { marginTop: 0,    paddingVertical: 0,}]}>
         <TouchableOpacity onPress={handleMuteToggle}>
           <Feather
             name={isMuted ? 'volume-x' : 'volume-1'}
@@ -97,7 +102,8 @@ const PlayerScreen: FC<PlayerScreenProps> = props => {
 
       {/* View for progress display and player */}
       <PlayProgressBar />
-    </ScrollView>
+    </View>
+    </SafeAreaView>
   );
 };
 

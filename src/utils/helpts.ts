@@ -37,3 +37,10 @@ export const formattedSecondsToMinutes = (seconds:number)=> {
 export const isSongExist = (songs:Song[], track:Song)=>{
 return songs.some((song)=>song.url === track.url)
 }
+
+export const tabletContainer= {
+  padding:150,
+  paddingTop:0,
+  justifyContent:'center',
+
+}

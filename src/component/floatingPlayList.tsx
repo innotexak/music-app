@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {fontFamilies} from '../constant/fontFamilies';
 import {fontSizes, iconSizes, spacing} from '../constant/dimensions';
@@ -28,6 +28,8 @@ const FloatingPlayList = () => {
   const isSliding = useSharedValue(false);
 
   const activeTrack = useActiveTrack();
+const {height} = useWindowDimensions()
+console.log(height);
 
   if(!isSliding.value){
     progress.value = duration > 0 ? (position / duration) : 0;
@@ -109,6 +111,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    position:'absolute',
+    bottom:0,
   },
   titleContainer: {
     flex: 1,

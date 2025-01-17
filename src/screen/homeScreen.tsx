@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, useWindowDimensions, SafeAreaView } from 'react-native';
 import React, { useState } from 'react';
 import { colors } from '../constant/colors';
 import AppHeader from '../component/header';
@@ -8,18 +8,16 @@ import { songsList as SongData } from '../data/songsList';
 import  { GapSpacing } from '../component/songListing';
 import SongListWithCategory from '../component/songListWithCategory';
 import { spacing } from '../constant/dimensions';
-import LoginComponent from './login'
+import { tabletContainer } from '../utils/helpts';
+
 
 const HomeScreen = () => {
-  const [user, setUser] = useState<Record<string, any> | null>(null)
-
-  if(!user){
-    return <LoginComponent/>
-  }
+  const { width } = useWindowDimensions();
+  const isTablet = width > 600;
 
   const formattedSongs = SongData.filter(item=>item.category.toLowerCase() !== 'liked songs')
-  return (
-    <View style={styles.container}>
+  return (<SafeAreaView style={[styles.container, isTablet && tabletContainer as unknown as {}]}> 
+    <View style={styles.container} >
       <AppHeader />
       <FlatList
         data={formattedSongs} 
@@ -30,6 +28,7 @@ const HomeScreen = () => {
       />
       <FloatingPlayList />
     </View>
+    </SafeAreaView>
   );
 };
 

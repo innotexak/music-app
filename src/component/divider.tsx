@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { fontSizes } from '../constant/dimensions';
 
 const DividerWithText = ({ text = 'or' }: { text?: string }) => {
+
+     const { width } = useWindowDimensions();
+      const isTablet = width > 600;
   return (
-    <View style={styles.container}>
-      <View style={styles.line} />
+    <View style={[styles.container, isTablet && {marginVertical:0}]}>
+      <View style={[styles.line]} />
       <Text style={styles.text}>{text}</Text>
       <View style={styles.line} />
     </View>

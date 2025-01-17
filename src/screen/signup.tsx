@@ -2,9 +2,11 @@ import React from 'react';
 import {
     Button,
   KeyboardAvoidingView,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import {colors, icons} from '../constant/colors';
@@ -13,14 +15,16 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { fontFamilies } from '../constant/fontFamilies';
 import DividerWithText from '../component/divider';
 import CustomInput from '../component/TextInput';
-import { LoginValidationSchema } from '../component/validations';
+import { SignUpValidationSchema } from '../component/validations';
 import { useFormik } from 'formik';
 import { IAppScreen } from '../../App';
 import { useNavigation } from '@react-navigation/native';
+import { tabletContainer } from '../utils/helpts';
 
 
 function SignUp() {
-
+    const { width } = useWindowDimensions();
+      const isTablet = width > 600;
 const navigator = useNavigation()
     const formik = useFormik({
         initialValues: {
@@ -28,27 +32,36 @@ const navigator = useNavigation()
           email: '',
           password: '',
         },
-        validationSchema: '',
+        validationSchema:SignUpValidationSchema,
         onSubmit: (values) => {
           console.log('Form values:', values);
         },
       });
 
   return (
+    <SafeAreaView style={[styles.container, isTablet && tabletContainer as unknown as {}]}>
+            <TouchableOpacity onPress={() => navigator.goBack()} style={styles.goBack}>
+                      <AntDesign
+                        name="arrowleft"
+                        color={icons.iconSecondary}
+                        size={spacing.lg}
+                      />
+                    </TouchableOpacity>
     <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.IconContainer}>
+      <View style={[styles.IconContainer,  isTablet && {marginVertical:spacing.sm, height:80, width:80}]}>
         <AntDesign
           name="adduser"
           color={icons.iconSecondary}
           size={spacing.xl}
-          style={styles.IconStyle}
+        style={[styles.IconStyle, isTablet && { paddingVertical:spacing.sm,}]}
+          
         />
       </View>
       <Text style={styles.textColor}>Sign Up</Text>
 
-      <Text style={styles.paragraph}>Sign Up to your number one music player, we got you covered always</Text>
+      <Text style={[styles.paragraph, isTablet && {    paddingVertical:spacing.sm, fontSize:spacing.lg}]}>Sign Up to your number one music player, we got you covered always</Text>
     
-    <View style={styles.socialAuth}>
+    <View style={[styles.socialAuth, isTablet && {    paddingVertical:spacing.md,}]}>
     <TouchableOpacity style={styles.groupedIconText}>
         <AntDesign name='facebook-square' color={colors.iconPrimary} size={iconSizes.md}/>
         <Text style={styles.normalText}>Facebook</Text>
@@ -62,7 +75,7 @@ const navigator = useNavigation()
     </View>
     <DividerWithText text="or" />  
 
-     <View style={styles.form}>
+     <View style={[styles.form, isTablet && {marginTop:0}]}>
      <CustomInput
         // label="Email"
         placeholder="Enter your name"
@@ -92,17 +105,18 @@ const navigator = useNavigation()
         isPassword={true}
       />
       <TouchableOpacity >
-        <Text style={[styles.paragraph, {textAlign:'left', fontSize:fontSizes.sm, paddingTop:0}]}>I agree to the Terms of Service and Privacy Policy</Text>
+        <Text style={[styles.paragraph, {textAlign:'left', fontSize:fontSizes.sm, paddingTop:0}, isTablet && {fontSize:spacing.lg}]}>I agree to the Terms of Service and Privacy Policy</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={formik.handleSubmit} style={styles.button} >
+      <TouchableOpacity onPress={formik.handleSubmit} style={[styles.button, isTablet && {marginTop:5}]} >
       <Text style={styles.textColor2}>Create Account</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={()=>navigator.navigate(IAppScreen.LOGIN as unknown as never)}  >
-        <Text style={[styles.paragraph, { textAlign:'left', fontSize:fontSizes.md }]}>Already have an account? Sign In</Text>
+        <Text style={[styles.paragraph, { textAlign:'left', fontSize:fontSizes.md }, isTablet && {fontSize:spacing.lg}]}>Already have an account? Sign In</Text>
       </TouchableOpacity>
     </View> 
 
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -113,9 +127,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     color: colors.textPrimary,
-    padding: spacing.xl,
-    alignItems:'center', 
+    padding: spacing.md,
  },
+ goBack:{
+  textAlign:'left',
+},
   textColor: {
     color: colors.textPrimary,
     textAlign: 'center',
@@ -139,6 +155,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     marginVertical:spacing.xl,
+    marginHorizontal:'auto',
   },
   IconStyle:{
     paddingVertical:spacing.xl,

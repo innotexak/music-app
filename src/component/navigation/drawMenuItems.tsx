@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { DrawerItem } from '@react-navigation/drawer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -11,7 +11,10 @@ import { fontFamilies } from '../../constant/fontFamilies';
 
 
 
+
 const DrawerMenu = (props) =>{
+
+    const [user, setUser] = useState<Record<string, any> | null>(null)
 
     const drawerItems = [
         {
@@ -44,10 +47,16 @@ const DrawerMenu = (props) =>{
           icon: () => <AntDesign name="setting" size={iconSizes.lg} color={colors.iconSecondary} />,
           screen: IAppScreen.SETTING,
         },
+        {
+          label: user ? 'Uploads' : 'Sign In',
+          icon: () => <AntDesign name={user ? 'upload' : 'login'} size={iconSizes.lg} color={colors.iconSecondary} />,
+          screen: user ? IAppScreen.UPLOAD : IAppScreen.LOGIN,
+        },
       ];
   return (
     <View style={styles.drawerItemContainer}>
       {drawerItems.map((item, index) => (
+    
         <DrawerItem
           key={index}
           icon={item.icon}
@@ -56,6 +65,7 @@ const DrawerMenu = (props) =>{
           labelStyle={styles.labelStyle}
           style={styles.drawerItemStyle}
         />
+
       ))}
     </View>
   );

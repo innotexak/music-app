@@ -15,9 +15,7 @@ const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
     const trackIndex = songs.findIndex(
       value => value.url === selectedTract.url,
     );
-    console.log(trackIndex, "Index");
-    console.log("selected", selectedTract);
-    console.log('items', item.songs);
+
     if (trackIndex === -1) {
       return;
     }
@@ -27,7 +25,7 @@ const SongListWithCategory: FC<SongListWithCategoryProps> = ({item}) => {
 
 
     await TrackPlayer.reset();
-console.log("Logged and referesh")
+
     await TrackPlayer.add(selectedTract);
     await TrackPlayer.add(afterTracks);
     await TrackPlayer.add(beforeTracks);

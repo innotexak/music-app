@@ -111,8 +111,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    position:'absolute',
-    bottom:0,
   },
   titleContainer: {
     flex: 1,

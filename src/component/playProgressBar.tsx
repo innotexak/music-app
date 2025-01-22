@@ -11,6 +11,7 @@ import {
 } from './playControlButton';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 import { formattedSecondsToMinutes } from '../utils/helpts';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const PlayProgressBar = () => {
   const progress = useSharedValue(0);
@@ -25,7 +26,7 @@ const PlayProgressBar = () => {
 
 
   return (
-    <View >
+    <ScrollView >
       <View style={styles.progressContainer}>
         <Text style={styles.textStyle}>{formattedSecondsToMinutes(position)}</Text>
         <Text style={styles.textStyle}>{formattedSecondsToMinutes(duration - position)}</Text>
@@ -60,7 +61,7 @@ const PlayProgressBar = () => {
         <PlayAndPauseIcon size={iconSizes.xl} />
         <ForwardPlayIcon size={iconSizes.sm} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -97,6 +98,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing.md,
-    paddingVertical:spacing.xl,
+
   },
 });

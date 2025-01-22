@@ -20,6 +20,10 @@ import { IAppScreen } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import { tabletContainer } from '../utils/helpts';
 
+import {API_CALL} from '../utils/axiosInstance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 function SignIn() {
 
     const { width } = useWindowDimensions();
@@ -31,13 +35,23 @@ const navigator = useNavigation()
           password: '',
         },
         validationSchema: LoginValidationSchema,
-        onSubmit: (values) => {
+        onSubmit: async( values) => {
           console.log('Form values:', values);
+          try {
+            const response = await API_CALL().post('/api/v1/signup', values)
+            const { token } = response.data;
+
+            await AsyncStorage.setItem('authToken', token);
+            console.log({response})
+          } catch (error) {
+            console.log(error)
+            
+          }
         },
       });
 
   return (
-    <SafeAreaView style={[styles.container, isTablet && tabletContainer as unknown as {}]}>
+    <SafeAreaView style={[styles.container, isTablet && tabletContainer as {}]}>
         <TouchableOpacity onPress={() => navigator.goBack()} style={styles.goBack}>
                 <AntDesign
                   name="arrowleft"
@@ -50,7 +64,7 @@ const navigator = useNavigation()
         <AntDesign
           name="login"
           color={icons.iconSecondary}
-          size={spacing.xl}
+          size={spacing.md}
           style={[styles.IconStyle, isTablet && { paddingVertical:spacing.sm,}]}
         />
       </View>
@@ -137,12 +151,12 @@ const styles = StyleSheet.create({
   imageStyle: {},
   IconContainer:{
     backgroundColor:colors.lightBackground,
-    width:100,
-    height:100,
-    borderRadius:30,
+    width:80,
+    height:80,
+    borderRadius:20,
     justifyContent:'center',
     alignItems:'center',
-    marginVertical:spacing.xl,
+    marginVertical:spacing.md,
     marginHorizontal:"auto",
   },
   IconStyle:{

@@ -3,9 +3,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import DrawerNavigation from './src/component/navigation/drawNavigation';
-
 import { useSetupPlayer } from './src/hook/playerSetupt';
-import { StyleSheet, useWindowDimensions } from 'react-native';
+
 
 // The player is ready to be used
 export enum IAppScreen {
